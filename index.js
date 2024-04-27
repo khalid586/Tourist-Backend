@@ -26,24 +26,24 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     await client.connect();
-    const database = client.db("userDatabase");
-    const userData = database.collection('users')
+    const database = client.db("PlacesDatabase");
+    const placesData = database.collection('places')
 
-    app.post('/users',async (req,res) =>{
-      const user = req.body;
-      const result = await userData.insertOne(user);
+    app.post('/places',async (req,res) =>{
+      const place = req.body;
+      const result = await placesData.insertOne(place);
       res.send(result);
     })
     
-    app.get('/users',async (req,res) =>{
-      const Users = userData.find();
-      const result = await Users.toArray();
+    app.get('/places',async (req,res) =>{
+      const places = placesData.find();
+      const result = await places.toArray();
       res.send(result);
     })
-    app.delete('/users/:id',async (req,res) =>{
+    app.delete('/places/:id',async (req,res) =>{
       const Id = req.params.id;
-      const deletedUser = {_id: new ObjectId(Id)};
-      const result = await userData.deleteOne(deletedUser);
+      const deletedplace = {_id: new ObjectId(Id)};
+      const result = await placesData.deleteOne(deletedplace);
       res.send(result);
     })
 
