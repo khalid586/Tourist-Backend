@@ -40,6 +40,13 @@ async function run() {
       const result = await places.toArray();
       res.send(result);
     })
+    app.get('/places/:email',async (req,res) =>{
+      const email = req.params.email;
+      const query = {email};
+      const places = placesData.find(query);
+      const result = await places.toArray();
+      res.send(result);
+    })
     app.delete('/places/:id',async (req,res) =>{
       const Id = req.params.id;
       const deletedplace = {_id: new ObjectId(Id)};
