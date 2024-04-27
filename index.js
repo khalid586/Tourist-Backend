@@ -47,6 +47,14 @@ async function run() {
       const result = await places.toArray();
       res.send(result);
     })
+
+    app.get('/details/:id', async(req,res)=>{
+      const Id = req.params.id;
+      const query = {_id: new ObjectId(Id)};
+      const place = await placesData.findOne(query);
+      res.send(place); 
+    })
+
     app.delete('/places/:id',async (req,res) =>{
       const Id = req.params.id;
       const deletedplace = {_id: new ObjectId(Id)};
@@ -68,3 +76,4 @@ run().catch(console.dir);
 app.listen(port,()=>{
     console.log(`App running at port ${port}`);
 })
+
