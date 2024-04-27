@@ -40,7 +40,7 @@ async function run() {
     })
     
     app.get('/places',async (req,res) =>{
-      const places = placesData.find();
+      const places = placesData.find().sort({_id: -1});
       const result = await places.toArray();
       res.send(result);
     })
@@ -111,7 +111,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('testing if it is working')
+  res.send('testing version 1')
 })
 
 app.listen(port,()=>{
