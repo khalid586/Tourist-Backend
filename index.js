@@ -4,8 +4,12 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
+const corsOptions = {
+  origin: ['https://assignment10-22b3d.web.app', 'http://localhost:5173'],
+  optionsSuccessStatus: 200 
+};
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
@@ -72,6 +76,10 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
+app.get('/',(req,res)=>{
+  res.send('successfully running')
+})
 
 app.listen(port,()=>{
     console.log(`App running at port ${port}`);
