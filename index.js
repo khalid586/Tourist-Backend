@@ -58,6 +58,39 @@ async function run() {
       const place = await placesData.findOne(query);
       res.send(place); 
     })
+    app.get('/update/:id', async(req,res)=>{
+      const Id = req.params.id;
+      const query = {_id: new ObjectId(Id)};
+      const place = await placesData.findOne(query);
+      res.send(place); 
+    })
+
+    app.put('/update/:id', async(req,res) =>{
+       const Id = req.params.id;
+       const Info = req.body;
+
+       const filter = {_id:new ObjectId(Id)};
+       const options = {upsert:true};
+
+
+
+       const updatedInfo = {
+         $set:{
+          name:Info.name,
+          country:Info.country,
+          photoUrl:Info.photoUrl,
+          userName:Info.userName,
+          email:Info.email
+         }
+       }
+
+       console.log(updatedInfo)
+
+
+       const result = await placesData.updateOne(filter,updatedInfo,options);
+       res.send(result);
+
+    })
 
     app.delete('/places/:id',async (req,res) =>{
       const Id = req.params.id;
@@ -68,7 +101,7 @@ async function run() {
 
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } catch{
+  } catch(error){
     console.error(error)
   }
   finally {
@@ -78,7 +111,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('successfully running')
+  res.send('testing if it is working')
 })
 
 app.listen(port,()=>{
