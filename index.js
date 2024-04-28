@@ -75,13 +75,18 @@ async function run() {
 
 
        const updatedInfo = {
-         $set:{
-          name:Info.name,
-          country:Info.country,
-          photoUrl:Info.photoUrl,
-          userName:Info.userName,
-          email:Info.email
-         }
+            $set: {
+              name: Info.name,
+              country: Info.country,
+              photoUrl: Info.photoUrl,
+              avgCost: Info.avgCost,
+              seasonality: Info.seasonality,
+              description: Info.description,
+              email: Info.email,
+              userName: Info.userName,
+              travelTime:Info.travelTime,
+              visitorsPerYear:Info.visitorsPerYear,
+          }
        }
 
        console.log(updatedInfo)
@@ -111,7 +116,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('testing version 1')
+  res.send('testing version 5')
 })
 
 app.listen(port,()=>{
