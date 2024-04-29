@@ -31,19 +31,39 @@ async function run() {
   try {
     // await client.connect();
     const database = client.db("PlacesDatabase");
-    const placesData = database.collection('places')
+    const placesData = database.collection('places');
+    const countriesCollection = database.collection('countries');
 
-    app.post('/places',async (req,res) =>{
-      const place = req.body;
-      const result = await placesData.insertOne(place);
-      res.send(result);
-    })
-    
     app.get('/places',async (req,res) =>{
       const places = placesData.find().sort({_id: -1});
       const result = await places.toArray();
       res.send(result);
     })
+
+    app.get('/countries',async(req,res)=>{
+      try {
+        const distinctCountriesCursor = await placesData.aggregate([
+          { $group: { _id: "$country" } },
+          { $project: { _id: 0, name: "$_id" } }
+        ]);
+        const distinctCountries = await distinctCountriesCursor.toArray();
+
+        await countriesCollection.insertMany(distinctCountries.map(country => ({ name: country }))); 
+        res.send(distinctCountries);
+      } catch (error) {
+        console.error("Error creating countries collection:", error);
+        res.status(500).send("Internal Server Error has occured!!!!!");
+      }
+    })
+
+    app.post('/places',async (req,res) =>{
+      const place = req.body;
+      place.country = place.country.charAt(0).toUpperCase() + place.country.slice(1).toLowerCase();
+
+      const result = await placesData.insertOne(place);
+      res.send(result);
+    })
+    
     app.get('/places/:email',async (req,res) =>{
       const email = req.params.email;
       const query = {email};
@@ -116,7 +136,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('testing version 5')
+  res.send('testing version 6')
 })
 
 app.listen(port,()=>{
