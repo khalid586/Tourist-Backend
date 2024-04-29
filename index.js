@@ -102,6 +102,7 @@ async function run() {
               avgCost: Info.avgCost,
               seasonality: Info.seasonality,
               description: Info.description,
+              location:Info.location,
               email: Info.email,
               userName: Info.userName,
               travelTime:Info.travelTime,
@@ -136,7 +137,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('testing version 6')
+  res.send('Running version 7')
 })
 
 app.listen(port,()=>{
