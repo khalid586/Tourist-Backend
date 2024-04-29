@@ -58,7 +58,9 @@ async function run() {
 
     app.post('/places',async (req,res) =>{
       const place = req.body;
-      place.country = place.country.charAt(0).toUpperCase() + place.country.slice(1).toLowerCase();
+
+      const country = place.country.trim();
+      place.country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
 
       const result = await placesData.insertOne(place);
       res.send(result);
@@ -92,7 +94,9 @@ async function run() {
        const filter = {_id:new ObjectId(Id)};
        const options = {upsert:true};
 
-
+       const country = Info.country.trim();
+       Info.country = country.charAt(0).toUpperCase() + country.slice(1).toLowerCase();
+ 
 
        const updatedInfo = {
             $set: {
