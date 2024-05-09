@@ -5,7 +5,10 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: ['https://assignment10-22b3d.web.app', 'http://localhost:5173'],
+  origin: ['https://assignment10-22b3d.web.app', 'http://localhost:5173',
+    'https://tourist-1.web.app',
+    'https://tourist-fa667.web.app',
+  ],
   optionsSuccessStatus: 200 
 };
 
@@ -134,14 +137,11 @@ async function run() {
   } catch(error){
     console.error(error)
   }
-  finally {
-    // await client.close();
-  }
 }
 run().catch(console.dir);
 
 app.get('/',(req,res)=>{
-  res.send('Running version 7')
+  res.send('Running version 9')
 })
 
 app.listen(port,()=>{
